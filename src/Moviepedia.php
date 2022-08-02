@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme;
+namespace Name;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,9 +19,6 @@ class Moviepedia extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        //$client = new GuzzleHttp\Client();
-        //$api = '58ec4ac5';
-
         $message = 'A Felipe le gusta '. $input->getArgument('movie');
         $output->writeln("<info>{$message}</info>");
 

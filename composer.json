@@ -4,7 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Mateogoldwasser\\Third\\": "src/"
+            "Name\\": "src"
         }
     },
     "authors": [
