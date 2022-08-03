@@ -6,6 +6,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use GuzzleHttp\Client;
+
 
 class Moviepedia extends Command
 {
@@ -19,8 +21,20 @@ class Moviepedia extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $message = 'A Felipe le gusta '. $input->getArgument('movie');
-        $output->writeln("<info>{$message}</info>");
+
+        $client = new Client();
+        $api = '58ec4ac5';
+        $movie = $input->getArgument('movie');
+
+        $response = $client->request('GET', 'http://www.omdbapi.com/', [
+            'query' => ['apikey' => $api,
+                        't' => $movie]
+        ]);
+
+        $contents = $response->getBody()->getContents();
+        $movie_info = json_decode($contents, true);
+
+        $output->writeln("<info>{$movie_info["Year"]}</info>");
 
     }
 
