@@ -22,30 +22,26 @@ class Moviepedia extends Command
 
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output):int
     {
 
         $client = new Client();
         $api = '58ec4ac5';
         $movie = $input->getArgument('movie');
 
-        $response = $client->request('GET', 'http://www.omdbapi.com/', [
-            'query' => ['apikey' => $api,
-                        't' => $movie]
-        ]);
-
-        $response1 = $client->request('GET', 'http://www.omdbapi.com/', [
-            'query' => ['apikey' => $api,
-                        't' => $movie,
-                        'plot' => 'full']
-        ]);
-
-        //Falta esto, como saber si puso fullPlot o no
-        if($input->getOption('fullPlot')){
-            $contents = $response1->getBody()->getContents();
+        if(false === $input->getOption('fullPlot')){
+            $response = $client->request('GET', 'http://www.omdbapi.com/', [
+                'query' => ['apikey' => $api,
+                    't' => $movie]
+            ]);
         }else{
-            $contents = $response->getBody()->getContents();
+            $response = $client->request('GET', 'http://www.omdbapi.com/', [
+                'query' => ['apikey' => $api,
+                    't' => $movie,
+                    'plot' => 'full']]);
         }
+
+        $contents = $response->getBody()->getContents();
 
         $movie_info = json_decode($contents, true);
 
@@ -60,5 +56,6 @@ class Moviepedia extends Command
             }
             $table->render();
         }
+        return Command::SUCCESS;
     }
 }
